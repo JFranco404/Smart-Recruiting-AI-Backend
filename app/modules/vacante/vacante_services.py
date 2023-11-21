@@ -1,6 +1,6 @@
 from typing import List
-from modules.vacante.vacante_database_model import Vacante
-from modules.usuario.usuario_services import obtener_usuario_por_id
+from app.modules.vacante.vacante_database_model import Vacante
+from app.modules.usuario.usuario_services import obtener_usuario_por_id
 
 
 def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db) -> List[Vacante]:

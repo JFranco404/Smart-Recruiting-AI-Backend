@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database.db import Base, Engine
-import routes
+from app import routes
 
 Base.metadata.create_all(bind=Engine)
 app = FastAPI()

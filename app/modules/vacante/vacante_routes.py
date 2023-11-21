@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from database.db import get_db
-import modules.vacante.vacante_services as vacante_services
+import app.modules.vacante.vacante_services as vacante_services
 
 router = APIRouter()
 
@@ -16,3 +16,12 @@ async def ruta_obtener_vacantes_por_usuario_reclutador_id(user_recruiter_id: int
 
     except ValueError as error:
         return HTTPException(status_code=404, detail=str(error))
+    
+# @router.post("/vacantes", tags=["Vacancy"])
+# async def ruta_crear_vacante(vacante: dict, db: Session = Depends(get_db)):
+#     try:
+#         vacante_creada = vacante_services.crear_vacante(vacante, db)
+#         return vacante_creada
+
+#     except ValueError as error:
+#         return HTTPException(status_code=404, detail=str(error))

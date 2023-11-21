@@ -1,4 +1,4 @@
-from modules.usuario.usuario_database_model import Usuario
+from app.modules.usuario.usuario_database_model import Usuario
 
 
 def obtener_usuario_por_id(user_id: int, db):

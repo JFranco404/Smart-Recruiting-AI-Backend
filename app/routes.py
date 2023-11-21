@@ -1,5 +1,5 @@
-from modules.main import main_routes
-from modules.vacante import vacante_routes
+from app.modules.main import main_routes
+from app.modules.vacante import vacante_routes
 
 
 def include_routes(app):
