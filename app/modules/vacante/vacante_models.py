@@ -8,8 +8,8 @@ class CrearVacante(BaseModel):
     fecha_publicacion: str
     fecha_cierre: str
     salario: float
-    remoto: int
+    remoto: bool
     modalidad: str
-    ubicacion: str
+    ubicacion: int
     area_trabajo: str
     annos_experiencia: int
