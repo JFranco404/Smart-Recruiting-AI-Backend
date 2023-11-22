@@ -1,9 +1,11 @@
 from typing import List
+from sqlalchemy.orm import Session
 from app.modules.vacante.vacante_database_model import Vacante
+from app.modules.vacante.vacante_models import CrearVacante
 from app.modules.usuario.usuario_services import obtener_usuario_por_id
 
 
-def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db) -> List[Vacante]:
+def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db: Session) -> List[Vacante]:
     """
     Obtiene vacantes por ID de usuario reclutador.
 
@@ -18,7 +20,7 @@ def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db) -
     return db.query(Vacante).filter(Vacante.usuario_reclutador == usuario_reclutador_id).all()
 
 
-def crear_vacante(vacante, db):
+def crear_vacante(vacante: CrearVacante, db: Session) -> Vacante:
     """
     Crea una vacante.
 
@@ -27,17 +29,19 @@ def crear_vacante(vacante, db):
         ValueError: Cuando existe una vacante con el mismo titulo.
         ValueError: Cuando existe una vacante con la misma descripcion.
     """
+
     usuario_reclutador = obtener_usuario_por_id(vacante.usuario_reclutador, db)
     if not usuario_reclutador:
         raise ValueError("El usuario reclutador no existe")
+
+    vacantes_del_reclutador = obtener_vacantes_por_usuario_reclutador_id(
+        vacante.usuario_reclutador, db)
     
-    vacante_existente = obtener_vacante_por_titulo(vacante.titulo, db)
-    if vacante_existente:
-        raise ValueError("Ya existe una vacante con el mismo titulo")
-    
-    vacante_existente = obtener_vacante_por_descripcion(vacante.descripcion, db)
-    if vacante_existente:
-        raise ValueError("Ya existe una vacante con la misma descripcion")
+    for vacante_del_reclutador in vacantes_del_reclutador:
+        if vacante_del_reclutador.titulo == vacante.titulo:
+            raise ValueError("Ya existe una vacante con el mismo titulo")
+        if vacante_del_reclutador.descripcion == vacante.descripcion:
+            raise ValueError("Ya existe una vacante con la misma descripcion")
 
     vacante = Vacante(
         titulo=vacante.titulo,
@@ -56,28 +60,5 @@ def crear_vacante(vacante, db):
     db.add(vacante)
     db.commit()
     db.refresh(vacante)
-
-    return vacante
-
-
-def obtener_vacante_por_titulo(titulo: str, db) -> Vacante:
-    """
-    Obtiene una vacante por titulo.
-    """
-
-    vacante = db.query(Vacante).filter(Vacante.titulo == titulo).first()
-    if not vacante:
-        return None
-
-    return vacante
-
-def obtener_vacante_por_descripcion(descripcion: str, db) -> Vacante:
-    """
-    Obtiene una vacante por descripcion.
-    """
-
-    vacante = db.query(Vacante).filter(Vacante.descripcion == descripcion).first()
-    if not vacante:
-        return None
 
     return vacante
