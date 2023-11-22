@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from database.db import get_db
 from app.modules.vacante.vacante_services import *
-from app.modules.vacante.vacante_models import CrearVacante
+from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante
 
 router = APIRouter()
 
@@ -20,10 +20,19 @@ async def ruta_obtener_vacantes_por_usuario_reclutador_id(user_recruiter_id: int
 
 
 @router.post("/vacantes", tags=["Vacancy"])
-async def ruta_crear_vacante(vacante: CrearVacante, db: Session = Depends(get_db)):
+async def ruta_crear_vacante(vacante: DatosVacante, db: Session = Depends(get_db)):
     try:
         vacante_creada = crear_vacante(vacante, db)
         return vacante_creada
+
+    except ValueError as error:
+        return HTTPException(status_code=400, detail=str(error))
+    
+@router.put("/vacantes/", tags=["Vacancy"])
+async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depends(get_db)):
+    try:
+        vacante_actualizada = actualizar_vacante(vacante, db)
+        return vacante_actualizada
 
     except ValueError as error:
         return HTTPException(status_code=400, detail=str(error))
