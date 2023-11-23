@@ -3,11 +3,9 @@ from sqlalchemy.orm import Session
 from app.modules.vacante.vacante_database_model import Vacante
 from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, FiltrosVacante
 from app.modules.usuario.usuario_services import obtener_usuario_por_id
+from sqlalchemy import or_, func, extract
 
-def obtener_vacante_por_filtro(
-    filtros: FiltrosVacante,
-    db: Session
-) -> List[Vacante]:
+def obtener_vacante_por_filtro(filtros: FiltrosVacante, db: Session) -> List[Vacante]:
     """
     Obtiene vacantes filtradas según diferentes campos de la vacante.
 
@@ -15,30 +13,66 @@ def obtener_vacante_por_filtro(
         ValueError: Cuando el campo para filtrar no existe.
     """
     query = db.query(Vacante)
-    
+    criterios = []
+
     if filtros.titulo is not None:
-        query = query.filter(Vacante.titulo == filtros.titulo)
+        criterios.append(func.lower(Vacante.titulo).contains(func.lower(filtros.titulo)))
+        
     if filtros.fecha_publicacion is not None:
-        query = query.filter(Vacante.fecha_publicacion == filtros.fecha_publicacion)
+        fecha_publicacion = filtros.fecha_publicacion
+        if fecha_publicacion.year and not fecha_publicacion.month and not fecha_publicacion.day:
+            criterios.append(extract('year', Vacante.fecha_publicacion) == fecha_publicacion.year)
+        elif not fecha_publicacion.year and fecha_publicacion.month and not fecha_publicacion.day:
+            criterios.append(extract('month', Vacante.fecha_publicacion) == fecha_publicacion.month)
+        elif fecha_publicacion.year and fecha_publicacion.month and not fecha_publicacion.day:
+            criterios.extend([
+                extract('year', Vacante.fecha_publicacion) == fecha_publicacion.year,
+                extract('month', Vacante.fecha_publicacion) == fecha_publicacion.month
+            ])
+        else:
+            criterios.append(Vacante.fecha_publicacion == fecha_publicacion)
+    
     if filtros.fecha_cierre is not None:
-        query = query.filter(Vacante.fecha_cierre == filtros.fecha_cierre)
+        fecha_cierre = filtros.fecha_cierre
+        if fecha_cierre.year and not fecha_cierre.month and not fecha_cierre.day:
+            criterios.append(extract('year', Vacante.fecha_cierre) == fecha_cierre.year)
+        elif not fecha_cierre.year and fecha_cierre.month and not fecha_cierre.day:
+            criterios.append(extract('month', Vacante.fecha_cierre) == fecha_cierre.month)
+        elif fecha_cierre.year and fecha_cierre.month and not fecha_cierre.day:
+            criterios.extend([
+                extract('year', Vacante.fecha_cierre) == fecha_cierre.year,
+                extract('month', Vacante.fecha_cierre) == fecha_cierre.month
+            ])
+        else:
+            criterios.append(Vacante.fecha_cierre == fecha_cierre)
+    
     if filtros.salario is not None:
-        query = query.filter(Vacante.salario == filtros.salario)
+        criterios.append(Vacante.salario.between(filtros.salario * 0.9, filtros.salario * 1.1))
+        
     if filtros.remoto is not None:
-        query = query.filter(Vacante.remoto == filtros.remoto)
+        criterios.append(Vacante.remoto == filtros.remoto)
+        
     if filtros.modalidad is not None:
-        query = query.filter(Vacante.modalidad == filtros.modalidad)
+        criterios.append(func.lower(Vacante.modalidad).contains(func.lower(filtros.modalidad)))
+        
     if filtros.ubicacion is not None:
-        query = query.filter(Vacante.ubicacion == filtros.ubicacion)
+        criterios.append(Vacante.ubicacion == filtros.ubicacion)
+        
     if filtros.area_trabajo is not None:
-        query = query.filter(Vacante.area_trabajo == filtros.area_trabajo)
+        criterios.append(func.lower(Vacante.area_trabajo).contains(func.lower(filtros.area_trabajo)))
+        
     if filtros.annos_experiencia is not None:
-        query = query.filter(Vacante.annos_experiencia == filtros.annos_experiencia)
-    else:
-        raise ValueError("El filtro seleccionado no existe")
+        criterios.append(Vacante.annos_experiencia == filtros.annos_experiencia)
+
+    if not criterios:
+        raise ValueError("No se proporcionaron filtros")
+
+    # Crear una lista de condiciones para el filtro OR
+    query = query.filter(or_(*criterios))
 
     vacantes_filtradas = query.all()
     return vacantes_filtradas
+
     
 
 def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db: Session) -> List[Vacante]:

@@ -38,10 +38,10 @@ async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depe
        
 
 @router.post("/vacantes_filtradas/", tags=["Vacancy"])
-async def ruta_vacantes_filtradas(filtros: FiltrosVacante, db: Session = Depends(get_db)):
+async def filtrar_vacantes(filtros: FiltrosVacante, db: Session = Depends(get_db)):
     try:
         vacantes = obtener_vacante_por_filtro(filtros, db)
         return vacantes
 
     except ValueError as error:
-        raise HTTPException(status_code=404, detail=str(error))
+        raise HTTPException(status_code=400, detail=str(error))
