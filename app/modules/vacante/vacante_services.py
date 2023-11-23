@@ -1,9 +1,45 @@
 from typing import List
 from sqlalchemy.orm import Session
 from app.modules.vacante.vacante_database_model import Vacante
-from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante
+from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, FiltrosVacante
 from app.modules.usuario.usuario_services import obtener_usuario_por_id
 
+def obtener_vacante_por_filtro(
+    filtros: FiltrosVacante,
+    db: Session
+) -> List[Vacante]:
+    """
+    Obtiene vacantes filtradas según diferentes campos de la vacante.
+
+    Raises:
+        ValueError: Cuando el campo para filtrar no existe.
+    """
+    query = db.query(Vacante)
+    
+    if filtros.titulo is not None:
+        query = query.filter(Vacante.titulo == filtros.titulo)
+    if filtros.fecha_publicacion is not None:
+        query = query.filter(Vacante.fecha_publicacion == filtros.fecha_publicacion)
+    if filtros.fecha_cierre is not None:
+        query = query.filter(Vacante.fecha_cierre == filtros.fecha_cierre)
+    if filtros.salario is not None:
+        query = query.filter(Vacante.salario == filtros.salario)
+    if filtros.remoto is not None:
+        query = query.filter(Vacante.remoto == filtros.remoto)
+    if filtros.modalidad is not None:
+        query = query.filter(Vacante.modalidad == filtros.modalidad)
+    if filtros.ubicacion is not None:
+        query = query.filter(Vacante.ubicacion == filtros.ubicacion)
+    if filtros.area_trabajo is not None:
+        query = query.filter(Vacante.area_trabajo == filtros.area_trabajo)
+    if filtros.annos_experiencia is not None:
+        query = query.filter(Vacante.annos_experiencia == filtros.annos_experiencia)
+    else:
+        raise ValueError("El filtro seleccionado no existe")
+
+    vacantes_filtradas = query.all()
+    return vacantes_filtradas
+    
 
 def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db: Session) -> List[Vacante]:
     """
