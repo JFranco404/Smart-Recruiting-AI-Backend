@@ -32,8 +32,8 @@ class ActualizarVacante(BaseModel):
 
 class FiltrosVacante(BaseModel):
     titulo: TypingOptional[str] = None
-    fecha_publicacion: TypingOptional[date] = None
-    fecha_cierre: TypingOptional[date] = None
+    fecha_publicacion: TypingOptional[str] = None
+    fecha_cierre: TypingOptional[str] = None
     salario: TypingOptional[float] = None
     remoto: TypingOptional[bool] = None
     modalidad: TypingOptional[str] = None
