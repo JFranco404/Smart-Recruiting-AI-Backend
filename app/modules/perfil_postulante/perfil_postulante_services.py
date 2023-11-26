@@ -10,7 +10,8 @@ def obtener_perfil_postulante_por_usuario_id(usuario_id: int, db: Session) -> Pe
         raise ValueError("El usuario no existe")
 
     perfil_postulante = db.query(PerfilPostulante).filter(
-        PerfilPostulante.id_usuario == usuario_id)
+        PerfilPostulante.id_usuario == usuario_id).first()
+
     if not perfil_postulante:
         raise ValueError("El perfil no existe")
 
