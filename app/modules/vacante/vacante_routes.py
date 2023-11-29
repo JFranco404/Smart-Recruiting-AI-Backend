@@ -38,7 +38,7 @@ async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depe
        
 
 @router.post("/vacantes_filtradas/", tags=["Vacancy"])
-async def filtrar_vacantes(filtros: FiltrosVacante, db: Session = Depends(get_db)):
+async def ruta_obtener_vacante_por_filtro(filtros: FiltrosVacante, db: Session = Depends(get_db)):
     try:
         vacantes = obtener_vacante_por_filtro(filtros, db)
         return vacantes

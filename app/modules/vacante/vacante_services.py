@@ -6,6 +6,13 @@ from app.modules.usuario.usuario_services import obtener_usuario_por_id
 from sqlalchemy import or_, and_, func, extract
 
 def obtener_vacante_por_filtro(filtros: FiltrosVacante, db: Session) -> List[Vacante]:
+    """
+    Busqueda de una vacante por interseccion de los filtros seleccionados.
+
+    Raises:
+        ValueError: Cuando el criterio de busqueda es ivalido o no exite.
+    """
+    
     query = db.query(Vacante)
 
     if filtros.titulo:
