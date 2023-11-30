@@ -8,7 +8,7 @@ from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, 
 router = APIRouter()
 
 
-@router.get("/vacantes/{id_usuario_reclutador}", tags=["Vacancy"])
+@router.get("/vacantes/{id_usuario_reclutador}", tags=["Vacantes"])
 async def ruta_obtener_vacantes_por_usuario_reclutador_id(id_usuario_reclutador: int, db: Session = Depends(get_db)):
     try:
         vacantes = obtener_vacantes_por_usuario_reclutador_id(
@@ -19,7 +19,7 @@ async def ruta_obtener_vacantes_por_usuario_reclutador_id(id_usuario_reclutador:
         return HTTPException(status_code=404, detail=str(error))
 
 
-@router.post("/vacantes", tags=["Vacancy"])
+@router.post("/vacantes", tags=["Vacantes"])
 async def ruta_crear_vacante(vacante: DatosVacante, db: Session = Depends(get_db)):
     try:
         vacante_creada = crear_vacante(vacante, db)
@@ -29,7 +29,7 @@ async def ruta_crear_vacante(vacante: DatosVacante, db: Session = Depends(get_db
         return HTTPException(status_code=400, detail=str(error))
 
 
-@router.put("/vacantes/", tags=["Vacancy"])
+@router.put("/vacantes/", tags=["Vacantes"])
 async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depends(get_db)):
     try:
         vacante_actualizada = actualizar_vacante(vacante, db)
@@ -39,7 +39,7 @@ async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depe
         return HTTPException(status_code=400, detail=str(error))
 
 
-@router.delete("/vacantes/{id_vacante}", tags=["Vacancy"])
+@router.delete("/vacantes/{id_vacante}", tags=["Vacantes"])
 async def ruta_eliminar_vacante(id_vacante: int, db: Session = Depends(get_db)):
     try:
         vacante_eliminada = eliminar_vacante(id_vacante, db)
@@ -49,7 +49,7 @@ async def ruta_eliminar_vacante(id_vacante: int, db: Session = Depends(get_db)):
         return HTTPException(status_code=400, detail=str(error))
 
 
-@router.post("/vacantes_filtradas/", tags=["Vacancy"])
+@router.post("/vacantes_filtradas/", tags=["Vacantes"])
 async def ruta_obtener_vacante_por_filtro(filtros: FiltrosVacante, db: Session = Depends(get_db)):
     try:
         vacantes = obtener_vacante_por_filtro(filtros, db)
