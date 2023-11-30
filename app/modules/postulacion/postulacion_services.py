@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from app.modules.postulacion.postulacion_database_model import Postulacion
 from app.modules.perfil_postulante.perfil_postulante_services import obtener_perfil_postulante_por_usuario_id
-from app.modules.usuario.usuario_services import obtener_usuario_por_id
-from app.modules.vacante.vacante_services import obtener_vacante_por_id
+from app.modules.usuario.usuario_database_model import Usuario
+from app.modules.vacante.vacante_database_model import Vacante
 
 
 def eliminar_postulacion(postulacion_id: int, db: Session) -> Postulacion:
@@ -49,8 +49,8 @@ def seleccionar_postulacion(usuario_id: int, vacante_id: int, db: Session):
         ValueError: Que la vacante o el usuario no existan.
     """
 
-    vacante = obtener_vacante_por_id(vacante_id, db)
-    usuario = obtener_usuario_por_id(usuario_id, db)
+    vacante = db.query(Vacante).filter(Vacante.id == vacante_id).first()
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
 
     if vacante and usuario:
         perfil_postulante = obtener_perfil_postulante_por_usuario_id(
