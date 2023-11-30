@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from database.db import get_db
 from app.modules.vacante.vacante_services import *
-from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante
+from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, FiltrosVacante
 
 router = APIRouter()
 
@@ -27,7 +27,8 @@ async def ruta_crear_vacante(vacante: DatosVacante, db: Session = Depends(get_db
 
     except ValueError as error:
         return HTTPException(status_code=400, detail=str(error))
-    
+
+
 @router.put("/vacantes/", tags=["Vacancy"])
 async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depends(get_db)):
     try:
@@ -36,7 +37,8 @@ async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depe
 
     except ValueError as error:
         return HTTPException(status_code=400, detail=str(error))
-    
+
+
 @router.delete("/vacantes/{id_vacante}", tags=["Vacancy"])
 async def ruta_eliminar_vacante(id_vacante: int, db: Session = Depends(get_db)):
     try:
@@ -45,3 +47,13 @@ async def ruta_eliminar_vacante(id_vacante: int, db: Session = Depends(get_db)):
 
     except ValueError as error:
         return HTTPException(status_code=400, detail=str(error))
+
+
+@router.post("/vacantes_filtradas/", tags=["Vacancy"])
+async def ruta_obtener_vacante_por_filtro(filtros: FiltrosVacante, db: Session = Depends(get_db)):
+    try:
+        vacantes = obtener_vacante_por_filtro(filtros, db)
+        return vacantes
+
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
