@@ -1,8 +1,9 @@
 from typing import List
 from sqlalchemy.orm import Session
+from app.modules.usuario.usuario_services import obtener_usuario_por_id
 from app.modules.vacante.vacante_database_model import Vacante
 from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante
-from app.modules.usuario.usuario_services import obtener_usuario_por_id
+from app.modules.postulacion.postulacion_services import eliminar_postulacion_por_vacante_id
 
 
 def obtener_vacantes_por_usuario_reclutador_id(usuario_reclutador_id: int, db: Session) -> List[Vacante]:
@@ -107,5 +108,26 @@ def actualizar_vacante(vacante: ActualizarVacante, db: Session) -> Vacante:
 
     db.commit()
     db.refresh(vacante_encontrada)
+
+    return vacante_encontrada
+
+
+def eliminar_vacante(vacante_id: int, db: Session) -> Vacante:
+    """
+    Elimina una vacante.
+
+    Raises:
+        ValueError: Cuando la vacante no es encontrada.
+    """
+
+    eliminar_postulacion_por_vacante_id(vacante_id, db)
+
+    vacante_encontrada = db.query(Vacante).filter(
+        Vacante.id == vacante_id).first()
+    if not vacante_encontrada:
+        raise ValueError("La vacante no existe")
+
+    db.delete(vacante_encontrada)
+    db.commit()
 
     return vacante_encontrada
