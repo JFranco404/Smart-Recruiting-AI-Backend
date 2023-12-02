@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoja de Vida</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        a {
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Curriculum Vitae</h1>
+    </header>
+
+    <section>
+        <h2>Información Personal</h2>
+        <ul>
+            <li><strong>Nombres:</strong> {{nombres}}</li>
+            <li><strong>Apellidos:</strong> {{apellidos}}</li>
+            <li><strong>Lugar de Residencia:</strong> {{lugar_Residencia}}</li>
+            <li><strong>Correo:</strong> {{correo}}</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Perfil Postulante</h2>
+        <ul>
+            <li><strong>Resumen:</strong> {{resumen}}</li>
+            <li><strong>Habilidades:</strong> {{habilidades}}</li>
+            <li><strong>Idiomas:</strong> {{idiomas}}</li>
+            <li><strong>Enlace:</strong> {{link}}</li>
+            <li><strong>Referencias:</strong> {{referencias}}</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Experiencia Laboral</h2>
+        <!-- Repite este bloque para cada experiencia laboral -->
+        <ul>
+            <li><strong>Nombre de la Empresa:</strong> {{nombre_Empresa}}</li>
+            <li><strong>Contacto:</strong> {{contacto}}</li>
+            <li><strong>Título del Cargo:</strong> {{titulo_Cargo}}</li>
+            <li><strong>Fecha de Inicio:</strong> {{fecha_Inicio}}</li>
+            <li><strong>Fecha de Finalización:</strong> {{fecha_Finalizacion}}</li>
+            <li><strong>Responsabilidades:</strong> {{responsabilidades}}</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Historial Académico</h2>
+        <!-- Repite este bloque para cada experiencia académica -->
+        <ul>
+            <li><strong>Título Obtenido:</strong> {{titulo_Obtenido}}</li>
+            <li><strong>Institución:</strong> {{institucion}}</li>
+            <li><strong>Área de Estudio:</strong> {{area_de_Estudio}}</li>
+            <li><strong>Fecha de Inicio:</strong> {{fecha_Inicio}}</li>
+            <li><strong>Fecha de Finalización:</strong> {{fecha_Finalizacion}}</li>
+            <li><strong>Promedio Ponderado:</strong> {{promedio_Ponderado}}</li>
+            <li><strong>Reconocimientos:</strong> {{reconocimientos}}</li>
+        </ul>
+    </section>
+
+</body>
+</html>
