@@ -32,7 +32,16 @@ def obtener_postulacion_por_usuario_id(usuario_id: int, db: Session) -> Postulac
     perfil_postulante = obtener_perfil_postulante_por_usuario_id(
         usuario_id, db)
     if perfil_postulante:
-        return db.query(Postulacion).filter(Postulacion.id_perfil_postulante == perfil_postulante.id).all()
+        
+        postulaciones = db.query(Postulacion).filter(Postulacion.id_perfil_postulante == perfil_postulante.id).all()
+    
+        vacantes_postuladas = []
+        for postulacion in postulaciones:
+            vacante = db.query(Vacante).filter(Vacante.id == postulacion.id_vacante).first()
+            if vacante:
+                vacantes_postuladas.append(vacante)
+
+        return vacantes_postuladas
     else:
         raise ValueError("No existe la postulacion")
 
