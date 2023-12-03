@@ -32,9 +32,9 @@ def crear_postulante(postulante: DatosPostulante, db:Session) -> PerfilPostulant
         referencias=postulante.referencias
     )
 
-    #db.add(postulante)
-    #db.commit()
-    #db.refresh(postulante)
+    db.add(postulante)
+    db.commit()
+    db.refresh(postulante)
 
     return postulante
 
@@ -53,5 +53,18 @@ def actualizar_postulante(postulante: ActualizarPerfilPostulante, db:Session) ->
 
     db.commit()
     db.refresh(postulante_encontrado)
+
+    return postulante_encontrado
+
+def eliminar_postulante(postulante_id: int, db: Session) -> PerfilPostulante:
+    postulante = obtener_perfil_postulante_por_usuario_id(postulante_id, db)
+
+    postulante_encontrado = db.query(PerfilPostulante).filter(
+        PerfilPostulante.id == postulante_id).first()
+    if not postulante_encontrado:
+        raise ValueError("La vacante no existe")
+
+    db.delete(postulante_encontrado)
+    db.commit()
 
     return postulante_encontrado

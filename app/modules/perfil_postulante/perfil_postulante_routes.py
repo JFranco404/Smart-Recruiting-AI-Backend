@@ -36,3 +36,11 @@ async def ruta_actualizar_perfil_postulante(postulante:ActualizarPerfilPostulant
     except ValueError as error:
         return HTTPException(status_code=400, detail=str(error))
     
+@router.delete('/perfil-postulante/{id_postulante}', tags=["Perfil Postulante"])
+async def ruta_eliminar_postulante(id_postulante: int, db: Session = Depends(get_db)):
+    try:
+        postulante_eliminado = eliminar_postulante(id_postulante, db)
+        return postulante_eliminado
+
+    except ValueError as error:
+        return HTTPException(status_code=400, detail=str(error))
