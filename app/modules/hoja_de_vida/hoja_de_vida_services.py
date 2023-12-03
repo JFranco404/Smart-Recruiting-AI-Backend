@@ -8,8 +8,7 @@ from app.shared.generar_archivo.tipo_plantilla import TipoPlantilla
 def generar_hoja_de_vida(id_usuario: int, db: Session) -> str:
     '''Genera una hoja de vida en formato PDF y la retorna en base64'''
     datos = __obtener_datos_hoja_de_vida(id_usuario, db)
-    plantilla = TipoPlantilla.HOJA_DE_VIDA
-    return FabricaDeArchivos().generar_pdf(datos, plantilla)
+    return FabricaDeArchivos().generar_pdf(datos, TipoPlantilla.HOJA_DE_VIDA)
 
 
 def __obtener_datos_hoja_de_vida(id_usuario: int, db: Session) -> dict:
