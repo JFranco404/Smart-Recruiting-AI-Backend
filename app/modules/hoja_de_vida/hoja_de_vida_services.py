@@ -1,6 +1,4 @@
 from sqlalchemy.orm import Session
-from fastapi import Depends
-from database.db import get_db
 from app.shared.generar_archivo.generar_archivo import FabricaDeArchivos
 from app.shared.generar_archivo.tipo_plantilla import TipoPlantilla
 
