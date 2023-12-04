@@ -19,7 +19,7 @@ class FabricaDeArchivos:
         self.__generar_html()
         self.__generar_pdf()
         self.__generar_base64()
-        # self.__borrar_archivo()
+        self.__borrar_archivo()
         return self.string_base64
 
     def definir_datos(self, datos_del_pdf: dict, tipo_del_pdf: int) -> None:
