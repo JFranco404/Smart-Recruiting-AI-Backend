@@ -11,7 +11,6 @@ def generar_html_hoja_de_vida(datos_hoja_de_vida: dict):
     </style>
     </head>
     <body>
-
         <header>
         <h1>Hoja de vida {datos_hoja_de_vida["nombres"]}</h1>
         </header>
