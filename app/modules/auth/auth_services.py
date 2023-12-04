@@ -85,8 +85,6 @@ def obtener_header(request: Request):
 
 def autorizar_usuario(token : str, rol_requerido : int = 0):
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    id_usuario: str = payload.get('id_usr')
-    user_email: str = payload.get('mail')
     rol: str = payload.get('rol')
 
     if rol != rol_requerido:
