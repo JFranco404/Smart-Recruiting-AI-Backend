@@ -3,3 +3,6 @@ uvicorn[standard]
 sqlalchemy
 psycopg2-binary
 pytest
+bcrypt
+xhtml2pdf
+PyJWT
