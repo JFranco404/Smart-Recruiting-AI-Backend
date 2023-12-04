@@ -12,3 +12,4 @@ class PerfilPostulante(Base):
     idiomas = Column(String(150))
     link = Column(String(150))
     referencias= Column(String(300))
+    
