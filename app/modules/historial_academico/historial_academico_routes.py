@@ -4,10 +4,22 @@ from fastapi import Depends
 from database.db import get_db
 from app.modules.historial_academico.historial_academico_services import *
 from app.modules.historial_academico.historial_academico_models import *
+from app.modules.educacion_por_perfil_postulante.educacion_por_perfil_postulante_services import obtener_educacion_por_perfil_postulante_por_postulante_id 
 
 
 router = APIRouter()
 
+@router.get("/historial-academico/{id_postulante}", tags=["Historial Academico"])
+async def ruta_obtener_historial_academico_por_postulante_id(id_postulante: int, db: Session = Depends(get_db)):
+    try:
+        educacion = obtener_educacion_por_perfil_postulante_por_postulante_id(
+            id_postulante, db)
+        return educacion
+
+    except ValueError as error:
+        return HTTPException(status_code=404, detail=str(error))
+
+"""
 @router.get('/historial-academico/{id_historial}', tags=["Historial Academico"])
 async def ruta_obtener_historial_academico_por_id(id_historial: int, db: Session = Depends(get_db)):
     try:
@@ -16,7 +28,7 @@ async def ruta_obtener_historial_academico_por_id(id_historial: int, db: Session
 
     except ValueError as error:
         return HTTPException(status_code=404, detail=str(error))
-
+"""
 
 @router.post('/historial-academico', tags=["Historial Academico"])
 async def ruta_crear_historial_academico(historial: DatosHistorialAcademico, db:Session = Depends(get_db)):
