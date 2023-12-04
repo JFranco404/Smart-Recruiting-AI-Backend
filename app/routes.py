@@ -3,6 +3,7 @@ from app.modules.vacante import vacante_routes
 from app.modules.perfil_postulante import perfil_postulante_routes
 from app.modules.postulacion import postulacion_routes
 from app.modules.experiencia import experiencia_routes
+from app.modules.historial_academico import historial_academico_routes
 
 def include_routes(app):
     app.include_router(main_routes.router, tags=["Principal"])
@@ -10,3 +11,4 @@ def include_routes(app):
     app.include_router(perfil_postulante_routes.router, tags=["Perfil Postulante"])
     app.include_router(postulacion_routes.router, tags=["Postulation"])
     app.include_router(experiencia_routes.router, tags=["Experiencia"])
+    app.include_router(historial_academico_routes.router, tags=["Historial Academico"])
