@@ -7,7 +7,7 @@ COPY . /app
 # Cambia al directorio de la aplicación
 WORKDIR /app
 
-RUN apt-get install libcairo2-dev
+RUN apt-get install libpcre2-8-0=10.34-7
 
 # Instala las dependencias
 RUN pip install -r requirements.txt
