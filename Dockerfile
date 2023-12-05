@@ -7,24 +7,7 @@ COPY . /app
 # Cambia al directorio de la aplicación
 WORKDIR /app
 
-RUN apt-get update && apt-get install --no-install-recommends -y \
-  # dependencies for building Python packages
-  build-essential \
-  # Pour authentification via LDAP
-  python3-dev python2.7-dev libldap2-dev libsasl2-dev ldap-utils tox lcov valgrind libcairo2-dev\
-  # psycopg2 dependencies
-  libpq-dev \
-  # OpenCV dependencies \
-  ffmpeg libsm6 libxext6 \
-  # miniconda 3
-  wget bash \
-  # To allow python to use zlib
-  zlib1g-dev \
-  # To build local conda dependencies
-  git \
-  # For pypx
-  dcmtk sudo \
-
+RUN apt-get install libcairo2-dev
 
 # Instala las dependencias
 RUN pip install -r requirements.txt
