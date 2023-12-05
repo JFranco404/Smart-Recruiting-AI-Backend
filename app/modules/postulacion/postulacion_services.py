@@ -46,7 +46,7 @@ def obtener_postulacion_por_usuario_id(usuario_id: int, db: Session) -> Postulac
         raise ValueError("No existe la postulacion")
 
 
-def seleccionar_postulacion(usuario_id: int, vacante_id: int, db: Session):
+def seleccionar_postulacion(vacante_id: int, usuario_id: int, db: Session):
     """
     Verificar si la vacante y el usuario existen
     Obtener Perfil_Postulante por usuario id
