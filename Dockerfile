@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 
 # Instala las dependencias
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Expone el puerto que utilizará FastAPI
 EXPOSE 8000
