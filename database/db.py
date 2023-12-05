@@ -15,7 +15,6 @@ Engine = create_engine(connection_string, echo=True, future=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=Engine)
 
-
 def get_db():
     db = SessionLocal()
     try:
