@@ -13,3 +13,4 @@ class Usuario(Base):
     lugar_residencia = Column(Integer)
     correo = Column(String(30))
     rol = Column(Integer)
+    passwd = Column(String(26))
