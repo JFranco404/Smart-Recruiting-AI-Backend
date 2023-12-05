@@ -7,8 +7,6 @@ COPY . /app
 # Cambia al directorio de la aplicación
 WORKDIR /app
 
-RUN chown usr/local/bin
-
 # Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
