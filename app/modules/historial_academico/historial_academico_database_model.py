@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean
+from sqlalchemy import Column, Integer, String, Date, Float 
 from database.db import Base
-
 
 class HistorialAcademico(Base):
     __tablename__ = "historial_academico"
@@ -11,5 +10,9 @@ class HistorialAcademico(Base):
     area_de_estudio = Column(String(100))
     fecha_inicio = Column(Date)
     fecha_finalizacion = Column(Date)
-    promedio_ponderado = Column(Integer)
-    reconocimientos = Column(String(400))
+    promedio_ponderado = Column(Float)
+    reconocimientos =Column(String(400))
+
+
+
+

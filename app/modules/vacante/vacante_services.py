@@ -4,7 +4,6 @@ from app.modules.usuario.usuario_services import obtener_usuario_por_id
 from app.modules.vacante.vacante_database_model import Vacante
 from app.modules.postulacion.postulacion_services import eliminar_postulacion_por_vacante_id
 from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, FiltrosVacante
-from app.modules.usuario.usuario_services import obtener_usuario_por_id
 from sqlalchemy import func
 
 
