@@ -4,15 +4,16 @@ from fastapi import Depends
 from database.db import get_db
 from app.modules.vacante.vacante_services import *
 from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, FiltrosVacante
+from app.modules.auth.auth_services import autorizar_postulante
 
 router = APIRouter()
 
 
-@router.get("/vacantes/{id_usuario_reclutador}", tags=["Vacantes"])
-async def ruta_obtener_vacantes_por_usuario_reclutador_id(id_usuario_reclutador: int, db: Session = Depends(get_db)):
+@router.get("/vacantes-del-reclutador", tags=["Vacantes"])
+async def ruta_obtener_vacantes_por_usuario_reclutador_id(payload=Depends(autorizar_postulante), db: Session = Depends(get_db)):
     try:
         vacantes = obtener_vacantes_por_usuario_reclutador_id(
-            id_usuario_reclutador, db)
+            payload.get('id_usr'), db)
         return vacantes
 
     except ValueError as error:
