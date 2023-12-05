@@ -7,8 +7,6 @@ COPY . /app
 # Cambia al directorio de la aplicación
 WORKDIR /app
 
-RUN apt-get install -y libcairo2
-
 # Instala las dependencias
 RUN pip install -r requirements.txt
 
