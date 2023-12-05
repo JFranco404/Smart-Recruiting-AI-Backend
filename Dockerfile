@@ -7,7 +7,7 @@ COPY . /app
 # Cambia al directorio de la aplicación
 WORKDIR /app
 
-RUN apt-get install sox ffmpeg libcairo2 libcairo2-dev
+RUN chown usr/local/bin
 
 # Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
