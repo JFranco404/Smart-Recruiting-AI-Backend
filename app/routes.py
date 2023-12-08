@@ -7,6 +7,7 @@ from app.modules.historial_academico import historial_academico_routes
 from app.modules.auth import auth_routes
 from app.modules.hoja_de_vida import hoja_de_vida_routes
 from app.modules.ia_recomendacion import datos_ia_routes
+from app.modules.usuario import usuario_routes
 
 
 def include_routes(app):
@@ -19,4 +20,5 @@ def include_routes(app):
     app.include_router(auth_routes.router, tags=["Auth"])
     app.include_router(hoja_de_vida_routes.router, tags=["Hoja de vida"])
     app.include_router(datos_ia_routes.router, tags=["Recomendacion ia"])
+    app.include_router(usuario_routes.router, tags=["Usuario"])
 
