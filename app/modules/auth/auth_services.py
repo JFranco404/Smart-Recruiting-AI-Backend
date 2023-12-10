@@ -82,9 +82,19 @@ def obtener_header(request: Request):
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
+def obtener_payload(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except:
+        raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token de autorización no válido",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
 
 def autorizar_usuario(token : str, rol_requerido : int = 0):
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    payload = obtener_payload(token)
     rol: str = payload.get('rol')
 
     if rol != rol_requerido:
@@ -101,3 +111,6 @@ def autorizar_postulante(token: str = Depends(obtener_header)):
 
 def autorizar_reclutador(token: str = Depends(obtener_header)):
     return autorizar_usuario(token, 1)
+
+def autorizar_todos(token: str = Depends(obtener_header)):
+    return obtener_payload(token)
