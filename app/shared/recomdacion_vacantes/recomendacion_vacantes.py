@@ -10,8 +10,10 @@ def pruebas(UbicacionUsuario,
         Vacantes,
         Ubicaciones,
         Historial):
-    #return {"message": Historial}
+    if not Perfil:
+        return {"message":"Es necesario completar el perfil para poder usar la IA"}
     return {"message":obtener_recomendacion(UbicacionUsuario,Perfil,Experiencias,Vacantes,Ubicaciones,Historial)}
+    #return {"message": Historial}
 
 
 def obtener_recomendacion(UbicacionUsuario,Perfil,Experiencias,Vacantes,Ubicaciones,Historial):
@@ -62,10 +64,13 @@ def obtener_titulos(Historial):
     return titulos,area
 
 def procesamiento_data_usuario(UbicacionUsuario,Perfil,Experiencias,Historial):
-
-    anos_exp = calculo_experiencia_usuario(Experiencias)
-    titulos, areas = obtener_titulos(Historial)
-    cuidad = UbicacionUsuario.ciudad
+    anos_exp = calculo_experiencia_usuario(Experiencias) if Experiencias else 0
+    if Historial:
+        titulos, areas = obtener_titulos(Historial)
+    else:
+        titulos = " "
+        areas = " "
+    cuidad = UbicacionUsuario.ciudad if UbicacionUsuario else " "
     return f"cuidad:{cuidad};titulo:{titulos};area:{areas};experiencia:{anos_exp}"
 
 
