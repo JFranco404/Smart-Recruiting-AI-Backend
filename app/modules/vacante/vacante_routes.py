@@ -4,13 +4,13 @@ from fastapi import Depends
 from database.db import get_db
 from app.modules.vacante.vacante_services import *
 from app.modules.vacante.vacante_models import DatosVacante, ActualizarVacante, FiltrosVacante
-from app.modules.auth.auth_services import autorizar_postulante
+from app.modules.auth.auth_services import autorizar_postulante, autorizar_reclutador
 
 router = APIRouter()
 
 
 @router.get("/vacantes-del-reclutador", tags=["Vacantes"])
-async def ruta_obtener_vacantes_por_usuario_reclutador_id(payload=Depends(autorizar_postulante), db: Session = Depends(get_db)):
+async def ruta_obtener_vacantes_por_usuario_reclutador_id(payload=Depends(autorizar_reclutador), db: Session = Depends(get_db)):
     try:
         vacantes = obtener_vacantes_por_usuario_reclutador_id(
             payload.get('id_usr'), db)
@@ -21,7 +21,7 @@ async def ruta_obtener_vacantes_por_usuario_reclutador_id(payload=Depends(autori
 
 
 @router.post("/vacantes", tags=["Vacantes"])
-async def ruta_crear_vacante(vacante: DatosVacante, db: Session = Depends(get_db)):
+async def ruta_crear_vacante(vacante: DatosVacante, payload=Depends(autorizar_reclutador), db: Session = Depends(get_db)):
     try:
         vacante_creada = crear_vacante(vacante, db)
         return vacante_creada
@@ -31,7 +31,7 @@ async def ruta_crear_vacante(vacante: DatosVacante, db: Session = Depends(get_db
 
 
 @router.put("/vacantes/", tags=["Vacantes"])
-async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depends(get_db)):
+async def ruta_actualizar_vacante(vacante: ActualizarVacante, payload=Depends(autorizar_reclutador), db: Session = Depends(get_db)):
     try:
         vacante_actualizada = actualizar_vacante(vacante, db)
         return vacante_actualizada
@@ -41,7 +41,7 @@ async def ruta_actualizar_vacante(vacante: ActualizarVacante, db: Session = Depe
 
 
 @router.delete("/vacantes/{id_vacante}", tags=["Vacantes"])
-async def ruta_eliminar_vacante(id_vacante: int, db: Session = Depends(get_db)):
+async def ruta_eliminar_vacante(id_vacante: int, payload=Depends(autorizar_reclutador), db: Session = Depends(get_db)):
     try:
         vacante_eliminada = eliminar_vacante(id_vacante, db)
         return vacante_eliminada
