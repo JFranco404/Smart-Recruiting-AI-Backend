@@ -11,7 +11,7 @@ connection_string = URL.create(
     database='SmartRecruitAiDB',
 )
 Base = declarative_base()
-Engine = create_engine(connection_string, echo=True, future=True)
+Engine = create_engine(connection_string, echo=True, future=True, pool_pre_ping=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=Engine)
 
