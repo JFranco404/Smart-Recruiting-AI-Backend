@@ -20,6 +20,16 @@ async def ruta_obtener_vacantes_por_usuario_reclutador_id(payload=Depends(autori
         return HTTPException(status_code=404, detail=str(error))
 
 
+@router.get("/vacantes/{id}", tags=["Vacantes"])
+async def ruta_obtener_vacante_por_id(id: int, db: Session = Depends(get_db)):
+    try:
+        vacante = obtener_vacante_por_id(id, db)
+        return vacante
+
+    except ValueError as error:
+        return HTTPException(status_code=404, detail=str(error))
+
+
 @router.post("/vacantes", tags=["Vacantes"])
 async def ruta_crear_vacante(vacante: DatosVacante, payload=Depends(autorizar_reclutador), db: Session = Depends(get_db)):
     try:
