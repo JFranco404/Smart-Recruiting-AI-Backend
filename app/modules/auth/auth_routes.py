@@ -18,7 +18,5 @@ def login(auth: Auth_login, db: Session = Depends(get_db)):
 
 @router.post("/auth/registrarse", tags=["Auth"])
 def register(auth: Auth_register, db: Session = Depends(get_db)):
-    try:
-        return registrar_usuario(auth, db)
-    except:
-        return HTTPException(status_code=404, detail="No se pudo registrar el usuario")
+    
+    registrar_usuario(auth, db)

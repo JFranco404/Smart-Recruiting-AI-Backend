@@ -1,4 +1,4 @@
-import bcrypt
+from passlib.hash import pbkdf2_sha256
 import jwt
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
@@ -30,12 +30,8 @@ def consultar_rol_del_usuario(auth: Auth_login, db: Session) -> Rol:
     rol = db.query(Rol).filter(user.rol == Rol.id).first()
     return rol
 
-def validar_credenciales(auth: Auth_login, hashed: str) -> str :
-    return bcrypt.checkpw(to_encode_utf8(auth.passwd), to_encode_utf8(hashed))
-
-
-def to_encode_utf8(str) -> str:
-    return str.encode('utf8')
+def validar_credenciales(auth: Auth_login, hashed) -> bool:
+    return pbkdf2_sha256.verify(auth.passwd, hashed)
 
 
 def crear_token(usuario: Usuario, rol: Rol):
@@ -46,11 +42,13 @@ def crear_token(usuario: Usuario, rol: Rol):
     return encoded_jwt
 
 
-def registrar_usuario(auth: Auth_register, db: Session) -> bool:
-    
+def registrar_usuario(auth: Auth_register, db: Session):
+
     usuario = Usuario(
+        nombres=auth.names,
+        apellidos=auth.surnames,
         correo=auth.correo,
-        passwd=bcrypt.hashpw(auth.passwd.encode('utf8'), bcrypt.gensalt()),
+        passwd=pbkdf2_sha256.hash(auth.passwd),
         rol = auth.rol_id
     )
 
@@ -61,8 +59,6 @@ def registrar_usuario(auth: Auth_register, db: Session) -> bool:
     db.add(usuario)
     db.commit()
     db.refresh(usuario)
-
-    return usuario
 
 
 def obtener_header(request: Request):
