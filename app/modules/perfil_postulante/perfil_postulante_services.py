@@ -44,12 +44,23 @@ def actualizar_postulante(postulante: ActualizarPerfilPostulante, db:Session) ->
     if not postulante_encontrado:
         raise ValueError("El perfil del postulante no existe")
     
-    postulante_encontrado.id_usuario=postulante.id_usuario
-    postulante_encontrado.resumen=postulante.resumen
-    postulante_encontrado.habilidades=postulante.habilidades
-    postulante_encontrado.idiomas=postulante.idiomas
-    postulante_encontrado.link=postulante.link
-    postulante_encontrado.referencias=postulante.referencias
+    if postulante.id_usuario is not None and postulante.id != 0:
+        postulante_encontrado.id_usuario=postulante.id_usuario
+
+    if postulante.resumen is not None and postulante.resumen != "":
+        postulante_encontrado.resumen=postulante.resumen
+
+    if postulante.habilidades is not None and postulante.habilidades != "":
+        postulante_encontrado.habilidades=postulante.habilidades
+
+    if postulante.idiomas is not None and postulante.idiomas != "":
+        postulante_encontrado.idiomas=postulante.idiomas
+
+    if postulante.link is not None and postulante.link != "":
+        postulante_encontrado.link=postulante.link
+
+    if postulante.referencias is not None and postulante.referencias != "":
+        postulante_encontrado.referencias=postulante.referencias
 
     db.commit()
     db.refresh(postulante_encontrado)
