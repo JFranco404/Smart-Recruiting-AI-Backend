@@ -12,7 +12,7 @@ def pruebas(UbicacionUsuario,
         Historial):
     if not Perfil:
         return {"message":"Es necesario completar el perfil para poder usar la IA"}
-    return {"message":obtener_recomendacion(UbicacionUsuario,Perfil,Experiencias,Vacantes,Ubicaciones,Historial)}
+    return obtener_recomendacion(UbicacionUsuario,Perfil,Experiencias,Vacantes,Ubicaciones,Historial)
     #return {"message": Historial}
 
 
